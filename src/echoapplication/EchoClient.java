@@ -20,21 +20,23 @@ public class EchoClient {
     private static int PORT = 8080;
 
     public static void main(String args[]) {
-        System.out.println("Client started");
+
         try {
             Socket soc = new Socket("localhost", 8080);
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter a text");
-            String str = userInput.readLine();
             PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-            out.println(str);
             BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+
+            System.out.println("Server connected, Enter a text");
+
+            String str = userInput.readLine();
+            boolean running = true;
+
+            out.println(str);
+
             System.out.println(in.readLine());
 
-            boolean running = true;
-            
-
-            while (running) {
+            while (true) {
                 System.out.println("Client:");
                 str = userInput.readLine();
 
@@ -45,19 +47,20 @@ public class EchoClient {
                 if (str.equalsIgnoreCase("STOP")) {
                     System.out.println("Waiting for server response...");
                     String serverResponse = in.readLine();
-                    if ("TERMINATE".equalsIgnoreCase(serverResponse));
-                    System.out.println("Server response:" + serverResponse);
-                    System.out.println("Server close connection.");
-                    running = false;
+                    if (serverResponse != null && serverResponse.equalsIgnoreCase("TERMINATE")) {
+                        System.out.println("Server Terminated" + serverResponse);
+                        System.out.println("Server connection closed.");
+                        running = false;
+                    }
+
                 } else {
                     // Receive and print the server response
                     String serverResponse = in.readLine();
-                    if (serverResponse.startsWith("Error:")) {
-                        System.out.println("Server says: " + serverResponse);
-                    } else {
-                        System.out.println("Message:" + serverResponse);
-                    }
+
+                    System.out.println("Server response: " + serverResponse);
+
                 }
+
             }
 
         } catch (IOException e) {

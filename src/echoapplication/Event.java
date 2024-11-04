@@ -13,13 +13,15 @@ public class Event {
     private int eventId;
     private String title;
     private String date;
+    private String time;
     private String location;
     private static int idCounter = 1; // Generate unique IDs for each event
 
-    public Event(int eventId, String title, String date, String location) {
+    public Event(String title, String date, String time, String location) {
         this.eventId = eventId;
         this.title = title;
         this.date = date;
+        this.time= time;
         this.location = location;
     }
 
@@ -34,6 +36,9 @@ public class Event {
     public String getDate() {
         return date;
     }
+    public String getTime() {
+        return time;
+    }
 
     public String getLocation() {
         return location;
@@ -45,7 +50,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event{" + "eventId=" + eventId + ", title=" + title + ", date=" + date + ", location=" + location + '}';
+        return "Event{" + "eventId=" + eventId + ", title=" + title + ", date=" + date + "," + "time=" + time + ", location=" + location + '}';
     }
 
 }
